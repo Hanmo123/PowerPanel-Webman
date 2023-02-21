@@ -30,4 +30,28 @@ class User extends Model
     {
         return self::where('password', hash('sha512', $password . getenv('APP_SALT')));
     }
+
+    static public function HandleCreate(array $attributes, string $password)
+    {
+        // 创建用户
+        $user = new self($attributes);
+        $user->passwd($password);
+        $user->save();
+
+        // 写入用户默认权限
+        UserPermission::create([
+            'user_id' => $user->id,
+            'permission' => json_encode($attributes['is_admin'] ? ['all', 'admin.all'] : ['all'])
+        ]);
+    }
+
+    public function handleDelete()
+    {
+        InstanceRelationship::where('user_id', $this->id)->delete();    // 删除用户的实例关系
+        UserPermission::where('user_id', $this->id)->delete();          // 删除用户权限
+        ApiKey::where('user_id', $this->id)->delete();                  // 删除用户 API 密钥
+
+        // 删除用户
+        $this->delete();
+    }
 }

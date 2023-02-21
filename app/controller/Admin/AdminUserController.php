@@ -38,10 +38,7 @@ class AdminUserController
             if (User::where('name', $data['name'])->orWhere('email', $data['email'])->first())
                 throw new \Exception('已存在同名或同邮箱用户。', 400);
 
-            $user = new User();
-            $user->fill($data);
-            $user->passwd($data['password']);
-            $user->save();
+            User::HandleCreate($data, $data['password']);
 
             return json(['code' => 200]);
         } catch (\Throwable $th) {
@@ -84,9 +81,7 @@ class AdminUserController
         try {
             $user = User::withCount(['instances'])->findOrFail($userId);
             if ($user->instances_count > 0) throw new \Exception('无法删除拥有实例的用户。', 400);
-            $user->delete();
-
-            // TODO 删除其他用户数据
+            $user->handleDelete();
 
             return json(['code' => 200]);
         } catch (ModelNotFoundException $e) {

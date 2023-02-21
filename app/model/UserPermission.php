@@ -9,6 +9,7 @@ class UserPermission extends Model
     public array $parsed;
 
     protected $table = 'user_permission';
+    protected $fillable = ['user_id', 'permission'];
 
     public function checkPermission($permission)
     {
