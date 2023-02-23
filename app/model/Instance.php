@@ -17,7 +17,8 @@ class Instance extends Model
     protected $fillable = [
         'uuid',
         'name',
-        'descriptions',
+        'description',
+        'is_suspended',
         'node_id',
         'node_allocation_id',
         'app_id',
