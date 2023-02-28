@@ -52,7 +52,7 @@ class NodeAPI
         return json([
             'code' => 200,
             'attributes' => [
-                'list' => Instance::where('node_id', $request->node->id)->get()
+                'list' => Instance::with(['app', 'version', 'allocation', 'allocations'])->where('node_id', $request->node->id)->get()
             ]
         ]);
     }
