@@ -76,7 +76,7 @@ class NodeClient
         return $return;
     }
 
-    protected function checkResponse(array $return)
+    protected function checkResponse(array $return = NULL)
     {
         if (!isset($return['code'])) throw new \Exception('节点无响应。', 500);
         if ($return['code'] != 200) throw new \Exception('[Node] ' . $return['msg'], $return['code']);
