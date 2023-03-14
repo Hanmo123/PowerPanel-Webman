@@ -60,15 +60,20 @@ class NodeAPI
     public function UpdateStats(Request $request): Response
     {
         try {
-            $values = [];
-            // 获取 UUID 和 ID 的对照表
-            $chart = Instance::whereIn('uuid', array_keys($request->post()['data']))->get(['uuid', 'id'])
-                ->mapWithKeys(fn ($item) => [$item->uuid => $item->id]);
-            foreach ($request->post()['data'] as $uuid => $stats) {
-                if (!isset($chart[$uuid])) continue;
-                $values[] = ['ins_id' => $chart[$uuid]] + $stats;
-            }
-            InstanceStats::upsert($values, ['ins_id'], ['status', 'disk_usage']);
+            // 更新数据库数据
+            InstanceStats::upsert(
+                array_map(function ($data) {
+                    return [
+                        'ins_id' => $data['id'],
+                        'status' => $data['status'],
+                        // 'cpu_usage' => $data['resources']['cpu'],        // TODO
+                        // 'memory_usage' => $data['resources']['memory'],  // TODO
+                        'disk_usage' => $data['resources']['disk'],
+                    ];
+                }, $request->post()['data']),
+                ['ins_id'],
+                ['status', 'disk_usage']
+            );
 
             // 返回节点上容量超限的容器列表
             return json([

@@ -61,7 +61,10 @@ Route::group('/api/public/ins/{insId:\d+}', function () {
 
 Route::group('/api/admin', function () {
     Route::get('',                              [AdminController::class, 'GetData'])->setParams(['permission' => 'admin.detail']);
+
     Route::get('/ins',                          [AdminInstanceController::class, 'GetList'])->setParams(['permission' => 'admin.ins.list']);
+    Route::post('/ins',                         [AdminInstanceController::class, 'Create'])->setParams(['permission' => 'admin.ins.create']);
+    Route::get('/ins/{insId:\d+}',              [AdminInstanceController::class, 'GetDetail'])->setParams(['permission' => 'admin.ins.detail']);
 
     Route::get('/user',                         [AdminUserController::class, 'GetList'])->setParams(['permission' => 'admin.user.list']);
     Route::post('/user',                        [AdminUserController::class, 'Create'])->setParams(['permission' => 'admin.user.create']);
@@ -72,6 +75,7 @@ Route::group('/api/admin', function () {
     Route::get('/node',                         [AdminNodeController::class, 'GetList'])->setParams(['permission' => 'admin.node.list']);
     Route::post('/node',                        [AdminNodeController::class, 'Create'])->setParams(['permission' => 'admin.node.create']);
     Route::get('/node/{nodeId:\d+}',            [AdminNodeController::class, 'GetDetail'])->setParams(['permission' => 'admin.node.detail']);
+    Route::get('/node/{nodeId:\d+}/allocations', [AdminNodeController::class, 'GetAllocations'])->setParams(['permission' => 'admin.node.allocations.list']);
     Route::put('/node/{nodeId:\d+}',            [AdminNodeController::class, 'Update'])->setParams(['permission' => 'admin.node.update']);
     Route::delete('/node/{nodeId:\d+}',         [AdminNodeController::class, 'Delete'])->setParams(['permission' => 'admin.node.delete']);
 
@@ -84,6 +88,7 @@ Route::group('/api/admin', function () {
     Route::get('/app',                          [AdminAppController::class, 'GetList'])->setParams(['permission' => 'admin.app.list']);
     Route::post('/app',                         [AdminAppController::class, 'Create'])->setParams(['permission' => 'admin.app.create']);
     Route::get('/app/{appId:\d+}',              [AdminAppController::class, 'GetDetail'])->setParams(['permission' => 'admin.app.detail']);
+    Route::get('/app/{appId:\d+}/versions',     [AdminAppController::class, 'GetVersions'])->setParams(['permission' => 'admin.app.versions.list']);
     Route::put('/app/{appId:\d+}',              [AdminAppController::class, 'Update'])->setParams(['permission' => 'admin.app.update']);
     Route::delete('/app/{appId:\d+}',           [AdminAppController::class, 'Delete'])->setParams(['permission' => 'admin.app.delete']);
 

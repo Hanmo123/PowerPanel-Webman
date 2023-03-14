@@ -5,7 +5,6 @@ namespace app\controller\Admin;
 use app\class\Request;
 use app\model\Node;
 use app\model\NodeGroup;
-use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class NodeController
@@ -72,6 +71,14 @@ class NodeController
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
         }
+    }
+
+    public function GetAllocations(Request $request, int $insId)
+    {
+        return json([
+            'code' => 200,
+            'data' => Node::with(['allocations'])->find($insId)->allocations->makeHidden(['node_id', 'updated_at', 'created_at'])
+        ]);
     }
 
     public function Update(Request $request, int $nodeId)

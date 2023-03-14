@@ -6,6 +6,7 @@ use app\client\NodeClient;
 use app\handler\Instance\FileHandler;
 use app\handler\Instance\TokenHandler;
 use app\model\Node;
+use app\util\Random;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -26,7 +27,8 @@ class Instance extends Model
         'cpu',
         'memory',
         'swap',
-        'disk'
+        'disk',
+        'image'
     ];
     public NodeClient $client;
 
@@ -92,5 +94,10 @@ class Instance extends Model
     {
         $this->name = $name;
         $this->save();
+    }
+
+    public function genUuid()
+    {
+        $this->uuid = Random::Uuid();
     }
 }

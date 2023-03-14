@@ -5,7 +5,6 @@ namespace app\controller\Admin;
 use app\class\Request;
 use app\model\App;
 use app\model\Game;
-use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AppController
@@ -64,6 +63,14 @@ class AppController
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
         }
+    }
+
+    public function GetVersions(Request $request, int $appId)
+    {
+        return json([
+            'code' => 200,
+            'data' => App::with(['versions'])->find($appId)->versions->makeHidden(['node_id', 'updated_at', 'created_at'])
+        ]);
     }
 
     public function Update(Request $request, int $appId)
