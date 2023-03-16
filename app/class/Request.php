@@ -27,7 +27,7 @@ class Request extends SupportRequest
         return $this->apiKey->user;
     }
 
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }

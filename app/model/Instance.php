@@ -76,7 +76,7 @@ class Instance extends Model
 
     public function getClient()
     {
-        if (!isset($this->client)) $this->client = (new NodeClient($this->node));
+        if (!isset($this->client)) $this->client = new NodeClient($this->node);
         return $this->client;
     }
 
@@ -94,6 +94,15 @@ class Instance extends Model
     {
         $this->name = $name;
         $this->save();
+    }
+
+    public function reinstall()
+    {
+        $this->getClient()->post('/api/panel/ins/reinstall', [
+            'attributes' => [
+                'uuid' => $this->uuid
+            ]
+        ]);
     }
 
     public function genUuid()

@@ -63,8 +63,18 @@ class Instance
 
     public function Rename(Request $request)
     {
-        try {;
+        try {
             $request->getInstance()->rename($request->post('name'));
+            return json(['code' => 200]);
+        } catch (Throwable $th) {
+            return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
+        }
+    }
+
+    public function Reinstall(Request $request)
+    {
+        try {
+            $request->getInstance()->reinstall();
             return json(['code' => 200]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);

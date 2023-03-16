@@ -7,7 +7,6 @@ use app\model\Node;
 class NodeClient
 {
     public Node $node;
-    public string $node_token;
 
     public function __construct(Node $node)
     {
@@ -25,7 +24,7 @@ class NodeClient
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => [
-                'Authorization: Bearer ' . $this->node_token
+                'Authorization: Bearer ' . $this->node->node_token
             ]
         ]);
         $return = json_decode(curl_exec($ch), true);

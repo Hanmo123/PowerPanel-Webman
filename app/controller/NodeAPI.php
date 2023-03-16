@@ -96,7 +96,9 @@ class NodeAPI
         try {
             return json([
                 'code' => 200,
-                'attributes' => Instance::with(['allocation', 'allocations', 'app'])->where('uuid', $request->post()['attributes']['uuid'])->first()
+                'attributes' => Instance::with(['allocation', 'allocations', 'app', 'version'])
+                    ->where('uuid', $request->post()['attributes']['uuid'])
+                    ->first()
             ]);
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);

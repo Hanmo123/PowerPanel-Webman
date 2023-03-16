@@ -43,6 +43,7 @@ Route::group('/api/public', function () {
 Route::group('/api/public/ins/{insId:\d+}', function () {
     Route::get('',          [Instance::class, 'GetDetail'])->setParams(['permission' => 'ins.detail', 'relationship' => 'detail']);
     Route::get('/console',  [Instance::class, 'GetConsole'])->setParams(['permission' => 'ins.console']);
+    Route::get('/reinstall',  [Instance::class, 'Reinstall'])->setParams(['permission' => 'ins.console', 'relationship' => 'reinstall']);
     Route::put('/rename',   [Instance::class, 'Rename'])->setParams(['permission' => 'ins.rename', 'relationship' => 'rename']);
 
     Route::get('/files',                [File::class, 'GetList'])->setParams(['permission' => 'ins.file.list', 'relationship' => 'file.list']);
