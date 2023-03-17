@@ -65,17 +65,17 @@ class InstanceController
             $allocation->save();
 
             InstanceRelationship::create([
-                'user_id' => 1,
+                'user_id' => 1, // TODO 更改用户 ID
                 'ins_id' => $ins->id,
                 'is_owner' => 1,
                 'permission' => json_encode(['all'])
             ]);
 
-            // TODO 通知节点创建实例
+            $ins->reinstall();
 
             return json(['code' => 200]);
         } catch (ModelNotFoundException $e) {
-            return json(['code' => 400, 'msg' => '节点、应用、可用端口、应用版本不存在。'])->withStatus(400);
+            return json(['code' => 400, 'msg' => '节点、应用、端口、应用版本不存在或端口不可用。'])->withStatus(400);
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
         }
