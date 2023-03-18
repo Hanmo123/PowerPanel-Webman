@@ -19,6 +19,7 @@ class AppController
         'images'            => 'required|json',
         'config'            => 'required',
         'startup'           => 'required',
+        'stop'              => 'required',
         'skip_install'      => 'required|boolean',
         'install_image'     => 'required_unless:skip_install,1',
         'install_script'    => 'required_unless:skip_install,1'

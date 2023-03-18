@@ -16,6 +16,7 @@ class App extends Model
         'images',
         'config',
         'startup',
+        'stop',
         'skip_install',
         'install_image',
         'install_script'
