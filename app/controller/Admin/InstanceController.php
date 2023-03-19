@@ -9,6 +9,7 @@ use app\model\Instance;
 use app\model\InstanceRelationship;
 use app\model\Node;
 use app\model\NodeAllocation;
+use app\model\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class InstanceController
@@ -18,6 +19,7 @@ class InstanceController
         'name'                  => 'required',
         'description'           => 'nullable',
         'is_suspended'          => 'boolean',
+        'user_id'               => 'required|integer',
         'node_id'               => 'required|integer',
         'node_allocation_id'    => 'required|integer',
         'app_id'                => 'required|integer',
@@ -53,6 +55,7 @@ class InstanceController
             $node = Node::findOrFail($data['node_id']);
             $allocation = NodeAllocation::whereNull('ins_id')->findOrFail($data['node_allocation_id']);
             $app = App::findOrFail($data['app_id']);
+            $user = User::findOrFail($data['user_id']);
             AppVersion::where('app_id', $app->id)->findOrFail($data['app_version_id']);
 
             if ($app->os != $node->os)
@@ -66,7 +69,7 @@ class InstanceController
             $allocation->save();
 
             InstanceRelationship::create([
-                'user_id' => 1, // TODO 更改用户 ID
+                'user_id' => $user->id,
                 'ins_id' => $ins->id,
                 'is_owner' => 1,
                 'permission' => json_encode(['all'])
