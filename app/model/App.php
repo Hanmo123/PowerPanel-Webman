@@ -11,6 +11,7 @@ class App extends Model
         'game_id',
         'name',
         'description',
+        'os',
         'data_path',
         'working_path',
         'images',

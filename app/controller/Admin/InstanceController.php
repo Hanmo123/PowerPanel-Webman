@@ -50,12 +50,13 @@ class InstanceController
         try {
             $data = $request->validate(self::$rules);
 
-            Node::findOrFail($data['node_id']);
+            $node = Node::findOrFail($data['node_id']);
             $allocation = NodeAllocation::whereNull('ins_id')->findOrFail($data['node_allocation_id']);
             $app = App::findOrFail($data['app_id']);
             AppVersion::where('app_id', $app->id)->findOrFail($data['app_version_id']);
 
-            // TODO 检查 OS 是否一致
+            if ($app->os != $node->os)
+                throw new \Exception('节点操作系统与应用不匹配。');
 
             $ins = new Instance($data);
             $ins->genUuid();

@@ -14,6 +14,7 @@ class AppController
         'game_id'           => 'required|integer',
         'name'              => 'required',
         'description'       => 'nullable',
+        'os'                => 'required|in:linux,windows',
         'data_path'         => 'required|json',
         'working_path'      => 'required',
         'images'            => 'required|json',
