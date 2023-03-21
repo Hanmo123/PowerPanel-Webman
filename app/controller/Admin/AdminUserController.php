@@ -4,7 +4,6 @@ namespace app\controller\Admin;
 
 use app\class\Request;
 use app\model\User;
-use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdminUserController
@@ -22,6 +21,9 @@ class AdminUserController
         return json([
             'code' => 200,
             'data' => User::select(['id', 'name', 'email', 'is_admin', 'updated_at', 'created_at'])
+                ->when(isset($request->get()['name']), function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->get()['name'] . '%');
+                })
                 ->withCount('instances')
                 ->get()
         ]);
