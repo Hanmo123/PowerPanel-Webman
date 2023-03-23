@@ -73,11 +73,17 @@ class NodeController
         }
     }
 
-    public function GetAllocations(Request $request, int $insId)
+    public function GetAllocations(Request $request, int $allocId)
     {
         return json([
             'code' => 200,
-            'data' => Node::with(['allocations'])->find($insId)->allocations->makeHidden(['node_id', 'updated_at', 'created_at'])
+            'data' => Node::with(['allocations'])
+                ->when(isset($request->get()['unused']) && $request->get()['unused'], function ($query) {
+                    $query->whereNull('ins_id');
+                })
+                ->find($allocId)
+                ->allocations
+                ->makeHidden(['node_id', 'updated_at', 'created_at'])
         ]);
     }
 

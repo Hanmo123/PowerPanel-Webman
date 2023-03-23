@@ -61,49 +61,49 @@ Route::group('/api/public/ins/{insId:\d+}', function () {
 })->middleware([APIAuth::class, InstanceAuth::class]);
 
 Route::group('/api/admin', function () {
-    Route::get('',                              [AdminController::class, 'GetData'])->setParams(['permission' => 'admin.detail']);
+    Route::get('',                                  [AdminController::class, 'GetData'])->setParams(['permission' => 'admin.detail']);
 
-    Route::get('/ins',                          [AdminInstanceController::class, 'GetList'])->setParams(['permission' => 'admin.ins.list']);
-    Route::post('/ins',                         [AdminInstanceController::class, 'Create'])->setParams(['permission' => 'admin.ins.create']);
-    Route::get('/ins/{insId:\d+}',              [AdminInstanceController::class, 'GetDetail'])->setParams(['permission' => 'admin.ins.detail']);
+    Route::get('/ins',                              [AdminInstanceController::class, 'GetList'])->setParams(['permission' => 'admin.ins.list']);
+    Route::post('/ins',                             [AdminInstanceController::class, 'Create'])->setParams(['permission' => 'admin.ins.create']);
+    Route::get('/ins/{insId:\d+}',                  [AdminInstanceController::class, 'GetDetail'])->setParams(['permission' => 'admin.ins.detail']);
 
-    Route::get('/user',                         [AdminUserController::class, 'GetList'])->setParams(['permission' => 'admin.user.list']);
-    Route::post('/user',                        [AdminUserController::class, 'Create'])->setParams(['permission' => 'admin.user.create']);
-    Route::get('/user/{userId:\d+}',            [AdminUserController::class, 'GetDetail'])->setParams(['permission' => 'admin.user.detail']);
-    Route::put('/user/{userId:\d+}',            [AdminUserController::class, 'Update'])->setParams(['permission' => 'admin.user.update']);
-    Route::delete('/user/{userId:\d+}',         [AdminUserController::class, 'Delete'])->setParams(['permission' => 'admin.user.delete']);
+    Route::get('/user',                             [AdminUserController::class, 'GetList'])->setParams(['permission' => 'admin.user.list']);
+    Route::post('/user',                            [AdminUserController::class, 'Create'])->setParams(['permission' => 'admin.user.create']);
+    Route::get('/user/{userId:\d+}',                [AdminUserController::class, 'GetDetail'])->setParams(['permission' => 'admin.user.detail']);
+    Route::put('/user/{userId:\d+}',                [AdminUserController::class, 'Update'])->setParams(['permission' => 'admin.user.update']);
+    Route::delete('/user/{userId:\d+}',             [AdminUserController::class, 'Delete'])->setParams(['permission' => 'admin.user.delete']);
 
-    Route::get('/node',                         [AdminNodeController::class, 'GetList'])->setParams(['permission' => 'admin.node.list']);
-    Route::post('/node',                        [AdminNodeController::class, 'Create'])->setParams(['permission' => 'admin.node.create']);
-    Route::get('/node/{nodeId:\d+}',            [AdminNodeController::class, 'GetDetail'])->setParams(['permission' => 'admin.node.detail']);
-    Route::get('/node/{nodeId:\d+}/allocations', [AdminNodeController::class, 'GetAllocations'])->setParams(['permission' => 'admin.node.allocations.list']);
-    Route::put('/node/{nodeId:\d+}',            [AdminNodeController::class, 'Update'])->setParams(['permission' => 'admin.node.update']);
-    Route::delete('/node/{nodeId:\d+}',         [AdminNodeController::class, 'Delete'])->setParams(['permission' => 'admin.node.delete']);
+    Route::get('/node',                             [AdminNodeController::class, 'GetList'])->setParams(['permission' => 'admin.node.list']);
+    Route::post('/node',                            [AdminNodeController::class, 'Create'])->setParams(['permission' => 'admin.node.create']);
+    Route::get('/node/{nodeId:\d+}',                [AdminNodeController::class, 'GetDetail'])->setParams(['permission' => 'admin.node.detail']);
+    Route::get('/node/{allocId:\d+}/allocations',   [AdminNodeController::class, 'GetAllocations'])->setParams(['permission' => 'admin.node.allocations.list']);
+    Route::put('/node/{nodeId:\d+}',                [AdminNodeController::class, 'Update'])->setParams(['permission' => 'admin.node.update']);
+    Route::delete('/node/{nodeId:\d+}',             [AdminNodeController::class, 'Delete'])->setParams(['permission' => 'admin.node.delete']);
 
-    Route::get('/node/group',                   [AdminNodeGroupController::class, 'GetList'])->setParams(['permission' => 'admin.node.group.list']);
-    Route::post('/node/group',                  [AdminNodeGroupController::class, 'Create'])->setParams(['permission' => 'admin.node.group.create']);
-    Route::get('/node/group/{groupId:\d+}',     [AdminNodeGroupController::class, 'GetDetail'])->setParams(['permission' => 'admin.node.group.detail']);
-    Route::put('/node/group/{groupId:\d+}',     [AdminNodeGroupController::class, 'Update'])->setParams(['permission' => 'admin.node.group.update']);
-    Route::delete('/node/group/{groupId:\d+}',  [AdminNodeGroupController::class, 'Delete'])->setParams(['permission' => 'admin.node.group.delete']);
+    Route::get('/node/group',                       [AdminNodeGroupController::class, 'GetList'])->setParams(['permission' => 'admin.node.group.list']);
+    Route::post('/node/group',                      [AdminNodeGroupController::class, 'Create'])->setParams(['permission' => 'admin.node.group.create']);
+    Route::get('/node/group/{groupId:\d+}',         [AdminNodeGroupController::class, 'GetDetail'])->setParams(['permission' => 'admin.node.group.detail']);
+    Route::put('/node/group/{groupId:\d+}',         [AdminNodeGroupController::class, 'Update'])->setParams(['permission' => 'admin.node.group.update']);
+    Route::delete('/node/group/{groupId:\d+}',      [AdminNodeGroupController::class, 'Delete'])->setParams(['permission' => 'admin.node.group.delete']);
 
-    Route::get('/app',                          [AdminAppController::class, 'GetList'])->setParams(['permission' => 'admin.app.list']);
-    Route::post('/app',                         [AdminAppController::class, 'Create'])->setParams(['permission' => 'admin.app.create']);
-    Route::get('/app/{appId:\d+}',              [AdminAppController::class, 'GetDetail'])->setParams(['permission' => 'admin.app.detail']);
-    Route::get('/app/{appId:\d+}/versions',     [AdminAppController::class, 'GetVersions'])->setParams(['permission' => 'admin.app.versions.list']);
-    Route::put('/app/{appId:\d+}',              [AdminAppController::class, 'Update'])->setParams(['permission' => 'admin.app.update']);
-    Route::delete('/app/{appId:\d+}',           [AdminAppController::class, 'Delete'])->setParams(['permission' => 'admin.app.delete']);
+    Route::get('/app',                              [AdminAppController::class, 'GetList'])->setParams(['permission' => 'admin.app.list']);
+    Route::post('/app',                             [AdminAppController::class, 'Create'])->setParams(['permission' => 'admin.app.create']);
+    Route::get('/app/{appId:\d+}',                  [AdminAppController::class, 'GetDetail'])->setParams(['permission' => 'admin.app.detail']);
+    Route::get('/app/{appId:\d+}/versions',         [AdminAppController::class, 'GetVersions'])->setParams(['permission' => 'admin.app.versions.list']);
+    Route::put('/app/{appId:\d+}',                  [AdminAppController::class, 'Update'])->setParams(['permission' => 'admin.app.update']);
+    Route::delete('/app/{appId:\d+}',               [AdminAppController::class, 'Delete'])->setParams(['permission' => 'admin.app.delete']);
 
-    Route::get('/app/game',                     [AdminAppGameController::class, 'GetList'])->setParams(['permission' => 'admin.app.game.list']);
-    Route::post('/app/game',                    [AdminAppGameController::class, 'Create'])->setParams(['permission' => 'admin.app.game.create']);
-    Route::get('/app/game/{gameId:\d+}',        [AdminAppGameController::class, 'GetDetail'])->setParams(['permission' => 'admin.app.game.detail']);
-    Route::put('/app/game/{gameId:\d+}',        [AdminAppGameController::class, 'Update'])->setParams(['permission' => 'admin.app.game.update']);
-    Route::delete('/app/game/{gameId:\d+}',     [AdminAppGameController::class, 'Delete'])->setParams(['permission' => 'admin.app.game.delete']);
+    Route::get('/app/game',                         [AdminAppGameController::class, 'GetList'])->setParams(['permission' => 'admin.app.game.list']);
+    Route::post('/app/game',                        [AdminAppGameController::class, 'Create'])->setParams(['permission' => 'admin.app.game.create']);
+    Route::get('/app/game/{gameId:\d+}',            [AdminAppGameController::class, 'GetDetail'])->setParams(['permission' => 'admin.app.game.detail']);
+    Route::put('/app/game/{gameId:\d+}',            [AdminAppGameController::class, 'Update'])->setParams(['permission' => 'admin.app.game.update']);
+    Route::delete('/app/game/{gameId:\d+}',         [AdminAppGameController::class, 'Delete'])->setParams(['permission' => 'admin.app.game.delete']);
 
-    Route::get('/app/version',                  [AdminAppVersionController::class, 'GetList'])->setParams(['permission' => 'admin.app.version.list']);
-    Route::post('/app/version',                 [AdminAppVersionController::class, 'Create'])->setParams(['permission' => 'admin.app.version.create']);
-    Route::get('/app/version/{appId:\d+}',      [AdminAppVersionController::class, 'GetDetail'])->setParams(['permission' => 'admin.app.version.detail']);
-    Route::put('/app/version/{appId:\d+}',      [AdminAppVersionController::class, 'Update'])->setParams(['permission' => 'admin.app.version.update']);
-    Route::delete('/app/version/{appId:\d+}',   [AdminAppVersionController::class, 'Delete'])->setParams(['permission' => 'admin.app.version.delete']);
+    Route::get('/app/version',                      [AdminAppVersionController::class, 'GetList'])->setParams(['permission' => 'admin.app.version.list']);
+    Route::post('/app/version',                     [AdminAppVersionController::class, 'Create'])->setParams(['permission' => 'admin.app.version.create']);
+    Route::get('/app/version/{appId:\d+}',          [AdminAppVersionController::class, 'GetDetail'])->setParams(['permission' => 'admin.app.version.detail']);
+    Route::put('/app/version/{appId:\d+}',          [AdminAppVersionController::class, 'Update'])->setParams(['permission' => 'admin.app.version.update']);
+    Route::delete('/app/version/{appId:\d+}',       [AdminAppVersionController::class, 'Delete'])->setParams(['permission' => 'admin.app.version.delete']);
 })->middleware([APIAuth::class]);
 
 Route::group('/api/node', function () {
