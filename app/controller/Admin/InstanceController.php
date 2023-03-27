@@ -19,7 +19,7 @@ class InstanceController
         'name'                  => 'required',
         'description'           => 'nullable',
         'is_suspended'          => 'boolean',
-        'user_id'               => 'required|integer',
+        'relationship.user_id'  => 'required|integer',
         'node_id'               => 'required|integer',
         'node_allocation_id'    => 'required|integer',
         'app_id'                => 'required|integer',
@@ -91,5 +91,46 @@ class InstanceController
             'code' => 200,
             'attributes' => Instance::with(['relationship'])->find($insId)
         ]);
+    }
+
+    public function Update(Request $request, int $appId)
+    {
+        try {
+            $data = $request->validate(self::$rules);
+
+            // 获取实例模型
+            $ins = Instance::with(['relationship'])->findOrFail($data['id']);
+
+            // 更新实例所有关系
+            if ($data['relationship']['user_id'] != $ins->relationship->user_id) { // 需要更新
+                // 检查用户是否存在
+                User::findOrFail($data['relationship']['user_id']);
+                $ins->relationship->user_id = $data['relationship']['user_id'];
+                $ins->relationship->save();
+            }
+
+            // 更新实例端口
+            if ($data['node_allocation_id'] != $ins->node_allocation_id) {  // 需要更新
+                $target = NodeAllocation::whereNull('ins_id')->findOrFail($data['node_allocation_id']);
+                $target->ins_id = $ins->id;
+                $target->save();
+
+                $current = NodeAllocation::findOrFail($ins->node_allocation_id);
+                $current->ins_id = null;
+                $current->save();
+
+                $ins->node_allocation_id = $target->id;
+            }
+
+            // 更新实例信息
+            unset($data['relationship']);
+            $ins->fill($data)->save();
+
+            return json(['code' => 200]);
+        } catch (ModelNotFoundException $e) {
+            return json(['code' => 400, 'msg' => '实例、用户或可用端口不存在。'])->withStatus(400);
+        } catch (\Throwable $th) {
+            return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
+        }
     }
 }

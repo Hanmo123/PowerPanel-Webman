@@ -66,6 +66,7 @@ Route::group('/api/admin', function () {
     Route::get('/ins',                              [AdminInstanceController::class, 'GetList'])->setParams(['permission' => 'admin.ins.list']);
     Route::post('/ins',                             [AdminInstanceController::class, 'Create'])->setParams(['permission' => 'admin.ins.create']);
     Route::get('/ins/{insId:\d+}',                  [AdminInstanceController::class, 'GetDetail'])->setParams(['permission' => 'admin.ins.detail']);
+    Route::put('/ins/{insId:\d+}',                  [AdminInstanceController::class, 'Update'])->setParams(['permission' => 'admin.ins.update']);
 
     Route::get('/user',                             [AdminUserController::class, 'GetList'])->setParams(['permission' => 'admin.user.list']);
     Route::post('/user',                            [AdminUserController::class, 'Create'])->setParams(['permission' => 'admin.user.create']);
