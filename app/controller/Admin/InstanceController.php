@@ -55,7 +55,7 @@ class InstanceController
             $node = Node::findOrFail($data['node_id']);
             $allocation = NodeAllocation::whereNull('ins_id')->findOrFail($data['node_allocation_id']);
             $app = App::findOrFail($data['app_id']);
-            $user = User::findOrFail($data['user_id']);
+            $user = User::findOrFail($data['relationship']['user_id']);
             AppVersion::where('app_id', $app->id)->findOrFail($data['app_version_id']);
 
             if ($app->os != $node->os)
@@ -89,7 +89,7 @@ class InstanceController
     {
         return json([
             'code' => 200,
-            'attributes' => Instance::find($insId)
+            'attributes' => Instance::with(['relationship'])->find($insId)
         ]);
     }
 }
