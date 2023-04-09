@@ -9,6 +9,7 @@ class User extends Model
 {
     protected $table = 'user';
     protected $fillable = ['name', 'email', 'is_admin'];
+    protected $guarded = ['password'];
     public $timestamps = true;
 
     public function instances(): HasManyThrough
