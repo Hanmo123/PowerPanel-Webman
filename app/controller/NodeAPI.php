@@ -21,15 +21,7 @@ class NodeAPI
             'attributes' => [
                 'node_id' => $node->id,
                 'node_token' => $node->node_token,
-                'node_port' => [
-                    'webman' => $node->api_port,
-                    'websocket' => $node->ws_port,
-                    'event' => 9503
-                ],
-                'storage_path' => [
-                    'instance_data' => $addition['instance_data_path']
-                ],
-                'timezone' => getenv('TIME_ZONE'),
+                'node_port' => $node->api_port,
                 'docker' => [
                     'socket' => 'unix:///var/run/docker.sock',
                     'dns' => [
@@ -37,8 +29,12 @@ class NodeAPI
                         '119.29.29.29'
                     ]
                 ],
+                'storage_path' => [
+                    'instance_data' => $addition['instance_data_path'],
+                    'scripts' => $addition['instance_data_path'] . '/scripts'
+                ],
                 // TODO TLS 相关设置
-                'max_token_count' => 1024,
+                'timezone' => getenv('TIME_ZONE'),
                 'max_package_size' => $addition['max_upload_slice_size'] + 2 * 1024 * 1024,
                 'max_upload_slice_size' => $addition['max_upload_slice_size'],
                 'max_editable_size' => 128 * 1024,
