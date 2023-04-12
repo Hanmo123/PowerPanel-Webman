@@ -136,8 +136,9 @@ class AppController
     public function Delete(Request $request, int $appId)
     {
         try {
-            $app = App::withCount(['instances'])->findOrFail($appId);
+            $app = App::with(['versions'])->withCount(['instances'])->findOrFail($appId);
             if ($app->instances_count > 0) throw new \Exception('无法删除带有实例的镜像。', 400);
+            $app->versions->each->delete();
             $app->delete();
 
             return json(['code' => 200]);
