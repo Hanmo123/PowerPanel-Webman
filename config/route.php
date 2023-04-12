@@ -90,6 +90,7 @@ Route::group('/api/admin', function () {
     Route::get('/app',                              [AdminAppController::class, 'GetList'])->setParams(['permission' => 'admin.app.list']);
     Route::post('/app',                             [AdminAppController::class, 'Create'])->setParams(['permission' => 'admin.app.create']);
     Route::get('/app/{appId:\d+}',                  [AdminAppController::class, 'GetDetail'])->setParams(['permission' => 'admin.app.detail']);
+    Route::post('/app/import',                      [AdminAppController::class, 'Import'])->setParams(['permission' => 'admin.app.import']);
     Route::get('/app/{appId:\d+}/export',           [AdminAppController::class, 'Export'])->setParams(['permission' => 'admin.app.export']);
     Route::get('/app/{appId:\d+}/versions',         [AdminAppController::class, 'GetVersions'])->setParams(['permission' => 'admin.app.versions.list']);
     Route::put('/app/{appId:\d+}',                  [AdminAppController::class, 'Update'])->setParams(['permission' => 'admin.app.update']);
