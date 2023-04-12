@@ -67,6 +67,26 @@ class AppController
         }
     }
 
+    public function Export(Request $request, int $appId)
+    {
+        try {
+            $app = App::with(['versions'])
+                ->findOrFail($appId)
+                ->makeHidden('id', 'game_id');
+            $app->versions->each->makeHidden('id', 'app_id');
+            return json([
+                'code' => 200,
+                'attributes' => [
+                    'content' => $app->toJson()
+                ]
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return json(['code' => 400, 'msg' => '镜像不存在。'])->withStatus(400);
+        } catch (\Throwable $th) {
+            return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
+        }
+    }
+
     public function GetVersions(Request $request, int $appId)
     {
         return json([
